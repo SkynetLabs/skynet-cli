@@ -1,0 +1,48 @@
+name: Go
+
+# Run on PRs
+on: [pull_request]
+
+# Define Jobs
+jobs:
+  lint:
+    name: lint
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Build
+        run: go build -v .
+      - name: Lint script
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.27.0
+          python -m pip install --upgrade pip
+          pip install codespell
+          go get -u gitlab.com/NebulousLabs/analyze
+          go get -u -d ./...
+          ./bin/golangci-lint run -c .golangci.yml ./...
+          export PATH=${PATH}:`go env GOPATH`/bin
+          make lint-analyze
+          make markdown-spellcheck
+          make test
+
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+      - name: Test script
+        run: |
+          export PATH=${PATH}:`go env GOPATH`/bin
+          go get -u -d ./...
+          make test-long pkgs="./" run=.
+

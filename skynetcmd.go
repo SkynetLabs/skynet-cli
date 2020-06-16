@@ -188,7 +188,12 @@ func skynetuploadcmd(sourcePath string) {
 	if err != nil {
 		die("Unable to open source path:", err)
 	}
-	defer file.Close()
+	defer func() {
+		err = file.Close()
+		if err != nil {
+			die("Unable to close file:", err)
+		}
+	}()
 	fi, err := file.Stat()
 	if err != nil {
 		die("Unable to fetch source fileinfo:", err)
