@@ -1,4 +1,5 @@
 # skynet-cli
+![](https://github.com/NebulousLabs/skynet-cli/workflows/Go/badge.svg)
 
 skynet-cli is a lightweight cli to interact with [Skynet](https://siasky.net).
 
