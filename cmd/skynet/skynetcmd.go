@@ -97,6 +97,11 @@ will pay for storage and repairs until the files are manually deleted.`,
 
 // skynetcmd displays general info about the skynet cli.
 func skynetcmd() {
+	// Check if the user wants to generate the documentation
+	if generateDocs {
+		generateSkyetDocs()
+	}
+
 	// Print General Info
 	fmt.Printf("Use Skynet to upload and share content\n\n")
 
@@ -182,7 +187,7 @@ func skynetuploadcmd(sourcePath string) {
 	if customFilename != "" {
 		opts.CustomFilename = customFilename
 	}
-
+	fmt.Println("Upload Options", opts)
 	// Open the source file.
 	file, err := os.Open(sourcePath)
 	if err != nil {
