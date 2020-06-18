@@ -215,5 +215,4 @@ func skynetuploadcmd(sourcePath string) {
 		die("Unable to upload directory:", err)
 	}
 	fmt.Println("Successfully uploaded directory! Skylink:", skylink)
-	return
 }

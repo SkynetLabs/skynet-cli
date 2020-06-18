@@ -27,8 +27,7 @@ jobs:
           go get -u -d ./...
           ./bin/golangci-lint run -c .golangci.yml ./...
           export PATH=${PATH}:`go env GOPATH`/bin
-          make lint-analyze
-          make markdown-spellcheck
+          make lint
           make test
 
   test:
@@ -44,5 +43,5 @@ jobs:
         run: |
           export PATH=${PATH}:`go env GOPATH`/bin
           go get -u -d ./...
-          make test-long pkgs="./" run=.
+          make test-long pkgs="./cmd/skynet" run=.
 

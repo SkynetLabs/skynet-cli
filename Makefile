@@ -15,7 +15,7 @@ all: release
 count = 1
 
 # pkgs determines which packages to run tests on
-pkgs = ./
+pkgs = ./cmd/skynet
 
 # run determines which tests run when running any variation of 'make test'.
 run = .
@@ -42,7 +42,7 @@ markdown-spellcheck:
 
 # lint runs golangci-lint (which includes golint, a spellcheck of the codebase,
 # and other linters), the custom analyzers, and also a markdown spellchecker.
-lint: markdown-spellcheck lint-analyze
+lint: markdown-spellcheck lint-analyze staticcheck
 	golangci-lint run -c .golangci.yml
 
 # lint-ci runs golint.
@@ -69,7 +69,7 @@ staticcheck:
 
 # release builds and installs release binaries.
 release:
-	go build -o $(GOPATH)/bin/skynet -tags='netgo' -ldflags='-s -w $(ldflags)' $(pkgs)
+	go install -tags='netgo' -ldflags='-s -w $(ldflags)' $(pkgs)
 
 # clean removes all directories that get automatically created during
 # development.
