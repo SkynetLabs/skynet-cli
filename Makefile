@@ -67,6 +67,9 @@ spellcheck: markdown-spellcheck
 staticcheck:
 	staticcheck $(pkgs)
 
+build:
+	go build -v $(pkgs)
+
 # release builds and installs release binaries.
 release:
 	go install -tags='netgo' -ldflags='-s -w $(ldflags)' $(pkgs)
