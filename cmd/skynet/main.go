@@ -32,16 +32,19 @@ var (
 	// skynet commands
 	generateDocs bool
 
-	// Skynet Flags
+	// Common Skynet Flags
 	//
 	// skynetPortal will define a Skynet Portal to use instead of the default.
 	skynetPortal string
 
+	// endpointPath is the relative URL path of the endpoint.
+	endpointPath string
+
+	// customUserAgent is the custom user agent to use.
+	customUserAgent string
+
 	// Upload Flags
 	//
-	// portalUploadPath is the relative URL path of the upload endpoint.
-	portalUploadPath string
-
 	// portalFileFieldName is the fieldName for files on the portal.
 	portalFileFieldName string
 
@@ -52,6 +55,25 @@ var (
 	// customFilename is the custom filename to use for the upload. If this is
 	// empty, the filename of the file being uploaded will be used by default.
 	customFilename string
+
+	// customDirname is the custom directory filename to use for the upload. If
+	// this is empty, the name of the directory being uploaded will be used by
+	// default.
+	customDirname string
+
+	// uploadSkykeyName is the name of the skykey used to encrypt the upload.
+	uploadSkykeyName string
+
+	// uploadSkykeyID is the ID of the skykey used to encrypt the upload.
+	uploadSkykeyID string
+
+	// Download Flags
+	//
+	// downloadSkykeyName is the name of the skykey used to decrypt the upload.
+	downloadSkykeyName string
+
+	// downloadSkykeyID is the ID of the skykey used to decrypt the upload.
+	downloadSkykeyID string
 )
 
 // copyDocFile will copy the top level auto generated doc file into a README for
@@ -112,15 +134,25 @@ on top of Sia.`,
 	}
 
 	// Add Skynet Commands
-	rootCmd.AddCommand(skynetBlacklistCmd, skynetConvertCmd, skynetDownloadCmd, skynetLsCmd, skynetPinCmd, skynetUnpinCmd, skynetUploadCmd)
+	rootCmd.AddCommand(skynetBlacklistCmd, skynetConvertCmd, skynetDownloadCmd, skynetLsCmd, skynetPinCmd, skynetSkykeyCmd, skynetUnpinCmd, skynetUploadCmd)
+	skynetSkykeyCmd.AddCommand(skynetSkykeyAddCmd, skynetSkykeyCreateCmd, skynetSkykeyGetCmd)
+	skynetSkykeyGetCmd.AddCommand(skynetSkykeyGetIDCmd, skynetSkykeyGetNameCmd, skynetSkykeyGetSkykeysCmd)
 
-	// Add Flags
+	// Add flags.
 	rootCmd.Flags().BoolVarP(&generateDocs, "", "d", false, "Generate the docs for skynet")
 	rootCmd.PersistentFlags().StringVar(&skynetPortal, "portal", "", "Use a Skynet portal other than the default")
-	skynetUploadCmd.Flags().StringVar(&portalUploadPath, "upload-path", "", "Relative URL path of the upload endpoint")
+	rootCmd.PersistentFlags().StringVar(&endpointPath, "endpoint-path", "", "Relative URL path of the endpoint to use")
+	rootCmd.PersistentFlags().StringVar(&customUserAgent, "custom-user-agent", "", "Custom user agent to use")
+	// Upload flags.
 	skynetUploadCmd.Flags().StringVar(&portalFileFieldName, "file-field-name", "", "Defines the fieldName for the files on the portal")
 	skynetUploadCmd.Flags().StringVar(&portalDirectoryFileFieldName, "directory-field-name", "", "Defines the fieldName for the directory files on the portal")
 	skynetUploadCmd.Flags().StringVar(&customFilename, "filename", "", "Custom filename for the uploaded file")
+	skynetUploadCmd.Flags().StringVar(&customDirname, "dirname", "", "Custom dirname for the uploaded directory")
+	skynetUploadCmd.Flags().StringVar(&uploadSkykeyName, "skykey-name", "", "Name of the skykey on the portal used to encrypt the upload")
+	skynetUploadCmd.Flags().StringVar(&uploadSkykeyID, "skykey-id", "", "ID of the skykey on the portal used to encrypt the upload")
+	// Download flags.
+	skynetDownloadCmd.Flags().StringVar(&downloadSkykeyName, "skykey-name", "", "Name of the skykey on the portal used to decrypt the download")
+	skynetDownloadCmd.Flags().StringVar(&downloadSkykeyID, "skykey-id", "", "ID of the skykey on the portal used to decrypt the download")
 
 	// run
 	if err := rootCmd.Execute(); err != nil {
