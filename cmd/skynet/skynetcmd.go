@@ -6,6 +6,7 @@ import (
 
 	"github.com/NebulousLabs/go-skynet"
 	"github.com/spf13/cobra"
+	"gitlab.com/NebulousLabs/errors"
 )
 
 var (
@@ -111,7 +112,7 @@ fetch a skylink file from a chosen skynet portal.`,
 	}
 
 	skynetSkykeyGetSkykeysCmd = &cobra.Command{
-		Use:   "skykeys",
+		Use:   "list",
 		Short: "Get a list of all skykeys on Skynet.",
 		Long:  "Get a list of all skykeys on Skynet.",
 		Run:   wrap(skynetgetskykeyscmd),
@@ -163,10 +164,10 @@ func skynetaddskykeycmd(skykey string) {
 	// Get the addskykey options.
 	opts := skynet.DefaultAddSkykeyOptions
 	opts.Options = getCommonOptions(opts.Options)
-	fmt.Printf("AddSkykey Options: %+v\n", opts)
 
 	err := skynet.AddSkykey(skykey, opts)
 	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("AddSkykey Options: %+v\n", opts))
 		die("Unable to add skykey:", err)
 	}
 	fmt.Println("Successfully added skykey!")
@@ -177,10 +178,10 @@ func skynetcreateskykeycmd(name, skykeyType string) {
 	// Get the createskykey options.
 	opts := skynet.DefaultCreateSkykeyOptions
 	opts.Options = getCommonOptions(opts.Options)
-	fmt.Printf("CreateSkykey Options: %+v\n", opts)
 
 	skykey, err := skynet.CreateSkykey(name, skykeyType, opts)
 	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("CreateSkykey Options: %+v\n", opts))
 		die("Unable to create skykey:", err)
 	}
 	fmt.Println("Successfully created skykey! Skykey:", skykey)
@@ -190,10 +191,10 @@ func skynetgetskykeyidcmd(id string) {
 	// Get the getskykeyid options.
 	opts := skynet.DefaultGetSkykeyOptions
 	opts.Options = getCommonOptions(opts.Options)
-	fmt.Printf("GetSkykey Options: %+v\n", opts)
 
 	skykey, err := skynet.GetSkykeyByID(id, opts)
 	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("GetSkykey Options: %+v\n", opts))
 		die("Unable to get skykey by id:", err)
 	}
 	fmt.Println("Successfully got skykey! Skykey:", skykey)
@@ -203,10 +204,10 @@ func skynetgetskykeynamecmd(name string) {
 	// Get the getskykeyname options.
 	opts := skynet.DefaultGetSkykeyOptions
 	opts.Options = getCommonOptions(opts.Options)
-	fmt.Printf("GetSkykey Options: %+v\n", opts)
 
 	skykey, err := skynet.GetSkykeyByName(name, opts)
 	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("GetSkykey Options: %+v\n", opts))
 		die("Unable to get skykey by name:", err)
 	}
 	fmt.Println("Successfully got skykey! Skykey:", skykey)
@@ -217,10 +218,10 @@ func skynetgetskykeyscmd() {
 	// Get the getskykeys options.
 	opts := skynet.DefaultGetSkykeysOptions
 	opts.Options = getCommonOptions(opts.Options)
-	fmt.Printf("GetSkykeys Options: %+v\n", opts)
 
 	skykeys, err := skynet.GetSkykeys(opts)
 	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("GetSkykeys Options: %+v\n", opts))
 		die("Unable to get skykeys:", err)
 	}
 	fmt.Println("Successfully got skykeys! Skykeys:", skykeys)
@@ -241,7 +242,7 @@ func skynetconvertcmd(sourceSiaPathStr, destSiaPathStr string) {
 // skynetdownloadcmd will perform the download of a skylink.
 func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 	if len(args) != 2 {
-		cmd.UsageFunc()(cmd)
+		_ = cmd.UsageFunc()(cmd)
 		os.Exit(exitCodeUsage)
 	}
 
@@ -258,17 +259,11 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 	if downloadSkykeyID != "" {
 		opts.SkykeyID = downloadSkykeyID
 	}
-	fmt.Printf("Download Options: %+v\n", opts)
-
-	// Check whether the portal flag is set, if so update the portal to download
-	// from.
-	if skynetPortal != "" {
-		opts.PortalURL = skynetPortal
-	}
 
 	// Download Skylink
 	err := skynet.DownloadFile(filename, skylink, opts)
 	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("Download Options: %+v\n", opts))
 		die("Unable to download skylink:", err)
 	}
 	fmt.Println("Successfully downloaded skylink!")
@@ -316,42 +311,50 @@ func skynetuploadcmd(sourcePath string) {
 	if uploadSkykeyID != "" {
 		opts.SkykeyID = uploadSkykeyID
 	}
-	fmt.Printf("Upload Options: %+v\n", opts)
 
+	skylink, uploadType, err := upload(sourcePath, opts)
+	if err != nil {
+		err = errors.AddContext(err, fmt.Sprintf("Upload Options: %+v\n", opts))
+		die(fmt.Sprintf("Unable to upload %v: %v\n", uploadType, err))
+	}
+
+	fmt.Printf("Successfully uploaded %v! Skylink: %v\n", uploadType, skylink)
+}
+
+// upload uploads the given path.
+func upload(sourcePath string, opts skynet.UploadOptions) (skylink string, uploadType string, err error) {
 	// Open the source file.
 	file, err := os.Open(sourcePath)
 	if err != nil {
-		die("Unable to open source path:", err)
+		return "", "path", errors.AddContext(err, "Unable to open source path")
 	}
 	defer func() {
-		err = file.Close()
-		if err != nil {
-			die("Unable to close file:", err)
-		}
+		err = errors.Extend(err, errors.AddContext(file.Close(), "Unable to close file"))
 	}()
 	fi, err := file.Stat()
 	if err != nil {
-		die("Unable to fetch source fileinfo:", err)
+		return "", "path", errors.AddContext(err, "Unable to fetch source fileinfo")
 	}
 
 	// Upload File
 	if !fi.IsDir() {
-		skylink, err := skynet.UploadFile(sourcePath, opts)
+		skylink, err = skynet.UploadFile(sourcePath, opts)
 		if err != nil {
-			die("Unable to upload file:", err)
+			return "", "file", errors.AddContext(err, "Unable to upload file")
 		}
-		fmt.Println("Successfully uploaded skyfile! Skylink:", skylink)
-		return
+		return skylink, "file", nil
 	}
 
 	// Upload directory
-	skylink, err := skynet.UploadDirectory(sourcePath, opts)
+	skylink, err = skynet.UploadDirectory(sourcePath, opts)
 	if err != nil {
-		die("Unable to upload directory:", err)
+		return "", "directory", errors.AddContext(err, "Unable to upload directory")
 	}
-	fmt.Println("Successfully uploaded directory! Skylink:", skylink)
+	return skylink, "directory", nil
 }
 
+// getCommonOptions gets options from the persistent root flags that are common
+// to all commands.
 func getCommonOptions(opts skynet.Options) skynet.Options {
 	if skynetPortal != "" {
 		opts.PortalURL = skynetPortal

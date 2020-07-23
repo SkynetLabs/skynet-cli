@@ -140,8 +140,8 @@ on top of Sia.`,
 
 	// Add Skynet Commands
 	rootCmd.AddCommand(skynetBlacklistCmd, skynetConvertCmd, skynetDownloadCmd, skynetLsCmd, skynetPinCmd, skynetSkykeyCmd, skynetUnpinCmd, skynetUploadCmd)
-	skynetSkykeyCmd.AddCommand(skynetSkykeyAddCmd, skynetSkykeyCreateCmd, skynetSkykeyGetCmd)
-	skynetSkykeyGetCmd.AddCommand(skynetSkykeyGetIDCmd, skynetSkykeyGetNameCmd, skynetSkykeyGetSkykeysCmd)
+	skynetSkykeyCmd.AddCommand(skynetSkykeyAddCmd, skynetSkykeyCreateCmd, skynetSkykeyGetCmd, skynetSkykeyGetSkykeysCmd)
+	skynetSkykeyGetCmd.AddCommand(skynetSkykeyGetIDCmd, skynetSkykeyGetNameCmd)
 
 	// Add flags.
 	rootCmd.Flags().BoolVarP(&generateDocs, "", "d", false, "Generate the docs for skynet")

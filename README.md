@@ -29,4 +29,4 @@ skynet download [skylink] [destination]
 For comprehensive documentation complete with examples, please see [the Skynet SDK docs](https://nebulouslabs.github.io/skynet-docs/?shell--cli#introduction).
 
 To learn about additional commands you can always use the `-h` flag or check out
-the [documentation](./docs).
+the [documentation](./doc).
