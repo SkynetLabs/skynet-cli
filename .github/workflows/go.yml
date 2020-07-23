@@ -20,14 +20,15 @@ jobs:
         run: make build
       - name: Lint script
         run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.27.0
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.29.0
           python -m pip install --upgrade pip
           pip install codespell
           go get -u gitlab.com/NebulousLabs/analyze
           go get -u -d ./...
           ./bin/golangci-lint run -c .golangci.yml ./...
           export PATH=${PATH}:`go env GOPATH`/bin
-          make lint
+          make lint-analyze
+          make markdown-spellcheck
           make test
 
   test:

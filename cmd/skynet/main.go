@@ -8,6 +8,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
+	"gitlab.com/NebulousLabs/errors"
 )
 
 const (
@@ -78,20 +79,24 @@ var (
 
 // copyDocFile will copy the top level auto generated doc file into a README for
 // /doc
-func copyDocFile() error {
+func copyDocFile() (err error) {
 	// Open the main doc file
 	source, err := os.Open(mainDocFile)
 	if err != nil {
 		return err
 	}
-	defer source.Close()
+	defer func() {
+		err = errors.Compose(err, source.Close())
+	}()
 
 	// Open the README file
 	destination, err := os.Create(docREADMEFile)
 	if err != nil {
 		return err
 	}
-	defer destination.Close()
+	defer func() {
+		err = errors.Compose(err, destination.Close())
+	}()
 
 	// Copy the main doc file into the README
 	_, err = io.Copy(destination, source)
