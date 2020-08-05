@@ -362,6 +362,9 @@ func getCommonOptions(opts skynet.Options) skynet.Options {
 	if endpointPath != "" {
 		opts.EndpointPath = endpointPath
 	}
+	if apiKey != "" {
+		opts.APIKey = apiKey
+	}
 	if customUserAgent != "" {
 		opts.CustomUserAgent = customUserAgent
 	}
