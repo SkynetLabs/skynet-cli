@@ -41,6 +41,9 @@ var (
 	// endpointPath is the relative URL path of the endpoint.
 	endpointPath string
 
+	// apiKey is the API password to use for authentication.
+	apiKey string
+
 	// customUserAgent is the custom user agent to use.
 	customUserAgent string
 
@@ -144,9 +147,10 @@ on top of Sia.`,
 	skynetSkykeyGetCmd.AddCommand(skynetSkykeyGetIDCmd, skynetSkykeyGetNameCmd)
 
 	// Add flags.
-	rootCmd.Flags().BoolVarP(&generateDocs, "", "d", false, "Generate the docs for skynet")
+	rootCmd.Flags().BoolVarP(&generateDocs, "generate-docs", "d", false, "Generate the docs for skynet")
 	rootCmd.PersistentFlags().StringVar(&skynetPortal, "portal", "", "Use a Skynet portal other than the default")
 	rootCmd.PersistentFlags().StringVar(&endpointPath, "endpoint-path", "", "Relative URL path of the endpoint to use")
+	rootCmd.PersistentFlags().StringVar(&apiKey, "api-key", "", "API password to use for authentication")
 	rootCmd.PersistentFlags().StringVar(&customUserAgent, "custom-user-agent", "", "Custom user agent to use")
 	// Upload flags.
 	skynetUploadCmd.Flags().StringVar(&portalFileFieldName, "file-field-name", "", "Defines the fieldName for the files on the portal")
