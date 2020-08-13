@@ -10,6 +10,12 @@ Version History
 
 Latest:
 
+## Aug 13, 2020:
+### v1.1.0
+**Key Updates**
+- The encryption API and support for encryption in uploads and decryption in downloads were added.
+- Connection options such as --api-key were added.
+
 ## Jun 16, 2020:
 ### v1.0.0
 **Key Updates**
