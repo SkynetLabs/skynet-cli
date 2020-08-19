@@ -151,11 +151,10 @@ func skynetcmd() {
 	}
 
 	// Print General Info
-	fmt.Printf("Use Skynet to upload and share content\n\n")
+	fmt.Printf("%s\n\n", binDescription)
 
 	// Get Default Portal
-	downloadOptions := skynet.DefaultDownloadOptions
-	fmt.Printf("Default Skynet Portal: %v \n\n", downloadOptions.PortalURL)
+	fmt.Printf("Default Skynet Portal: %v\n", skynet.DefaultPortalURL)
 }
 
 // skynetaddskykey stores the given base-64 encoded skykey with the skykey

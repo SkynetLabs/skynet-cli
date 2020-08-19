@@ -7,6 +7,16 @@ skynet-cli is a lightweight CLI to interact with [Skynet](https://siasky.net).
 Skynet is the decentralized CDN and file sharing platform for devs and the
 storage foundation for a Free Internet!
 
+## Installing
+
+If you have [Go](https://golang.org/cmd/go/) installed you can run:
+
+```
+go get github.com/NebulousLabs/skynet-cli
+```
+
+or you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page.
+
 ## Usage
 
 skynet-cli is designed to be simple and easy to use, just like Skynet.
