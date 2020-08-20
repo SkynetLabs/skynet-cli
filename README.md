@@ -15,7 +15,13 @@ If you have [Go](https://golang.org/cmd/go/) installed you can run:
 go get github.com/NebulousLabs/skynet-cli
 ```
 
-or you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page.
+or you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page,
+
+or you can build the source code yourself with:
+
+```
+make release
+```
 
 ## Usage
 

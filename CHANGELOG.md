@@ -15,6 +15,7 @@ Latest:
 **Key Updates**
 - The encryption API and support for encryption in uploads and decryption in downloads were added.
 - Connection options such as --api-key were added.
+- Some bugs were fixed, including a bug that prevented `skynet upload` from working.
 
 ## Jun 16, 2020:
 ### v1.0.0

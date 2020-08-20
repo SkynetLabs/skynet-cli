@@ -14,7 +14,7 @@ import (
 const (
 	// binDescription is the binary description.
 	binDescription = `Perform actions related to Skynet, a file sharing and data publication platform
-on top of Sia.`
+built on top of Sia.`
 
 	// binName is the binary name of skynet-cli.
 	binName = "skynet"
