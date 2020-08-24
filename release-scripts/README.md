@@ -2,7 +2,7 @@
 
 This directory contains all the scripts used to build releases of skynet-cli.
 
-`./release.sh` compiles `skynet`binaries for each supported system. It places
+`./release.sh` compiles `skynet` binaries for each supported system. It places
 those binaries along with documentation into a separate directory for each
 system type. It also creates a file of SHA256 hashes containing the hash of each
 binary produced.
@@ -31,6 +31,6 @@ improved to allow reproducibility on more systems.
 The following list of commands shows how one could use the scripts in this
 directory to build skynet-cli.
 
-1. `./build-in-docker.sh master v1.4.4`
-3. `cd ../release && sha256sum --check Sia-v1.4.4-SHA256SUMS.txt`
-3. `gpg --clearsign --armor Sia-v1.4.4-SHA256SUMS.txt`
+1. `./build-in-docker.sh master v1.1.0`
+3. `cd ../release && sha256sum --check skynet-cli-v1.1.0-SHA256SUMS.txt`
+3. `gpg --clearsign --armor skynet-cli-v1.1.0-SHA256SUMS.txt`

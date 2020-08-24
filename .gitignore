@@ -1,7 +1,5 @@
 # User Generated Content
-cover/
-release/
-skynet
-
-# Git
-.git
+/cover
+/release
+/skynet
+.DS_Store

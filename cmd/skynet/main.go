@@ -12,11 +12,21 @@ import (
 )
 
 const (
-	// mainDocFile is the filepath to the top level doc file created by cobra
-	mainDocFile = "./doc/skynet.md"
+	// binDescription is the binary description.
+	binDescription = `Perform actions related to Skynet, a file sharing and data publication platform
+built on top of Sia.`
+
+	// binName is the binary name of skynet-cli.
+	binName = "skynet"
 
 	// docREADMEFile is the filepath to the README file in /doc
 	docREADMEFile = "./doc/README.md"
+
+	// mainDocFile is the filepath to the top level doc file created by cobra
+	mainDocFile = "./doc/skynet.md"
+
+	// version is the current version of skynet-cli.
+	version = "1.1.0"
 )
 
 // Exit codes.
@@ -26,7 +36,14 @@ const (
 	exitCodeUsage   = 64 // EX_USAGE in sysexits.h
 )
 
-var rootCmd *cobra.Command
+var (
+	fullDescription = fmt.Sprintf("%s\n\n%s", versionString, binDescription)
+
+	rootCmd *cobra.Command
+
+	// versionString is the version string of the executable.
+	versionString = fmt.Sprintf("%s %s", binName, version)
+)
 
 var (
 	// generateDocs will trigger cobra to auto generate the documentation for
@@ -136,10 +153,11 @@ func main() {
 	rootCmd = &cobra.Command{
 		Use:   "skynet",
 		Short: "Perform actions related to Skynet",
-		Long: `Perform actions related to Skynet, a file sharing and data publication platform
-on top of Sia.`,
-		Run: wrap(skynetcmd),
+		Long:  fullDescription,
+		Run:   wrap(skynetcmd),
 	}
+
+	rootCmd.AddCommand(versionCmd)
 
 	// Add Skynet Commands
 	rootCmd.AddCommand(skynetBlacklistCmd, skynetConvertCmd, skynetDownloadCmd, skynetLsCmd, skynetPinCmd, skynetSkykeyCmd, skynetUnpinCmd, skynetUploadCmd)
