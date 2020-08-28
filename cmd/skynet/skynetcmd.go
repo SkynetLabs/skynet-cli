@@ -10,65 +10,12 @@ import (
 )
 
 var (
-	skynetBlacklistCmd = &cobra.Command{
-		Use:   "blacklist [skylink]",
-		Short: "Needs SDK Implementation",
-		Long:  "Needs SDK Implementation",
-
-		/*
-		   		Short: "Blacklist a skylink from skynet.",
-		   		Long: `Blacklist a skylink from skynet. Use the --remove flag to
-		   remove a skylink from the blacklist.`,
-		*/
-		Run: skynetblacklistcmd,
-	}
-
-	skynetConvertCmd = &cobra.Command{
-		Use:   "convert [source siaPath] [destination siaPath]",
-		Short: "Needs SDK Implementation",
-		Long:  "Needs SDK Implementation",
-		/*
-				Short: "Convert a siafile to a skyfile with a skylink.",
-				Long: `Convert a siafile to a skyfile and then generate its skylink. A new skylink
-			will be created in the user's skyfile directory. The skyfile and the original
-			siafile are both necessary to pin the file and keep the skylink active. The
-			skyfile will consume an additional 40 MiB of storage.`,
-		*/
-		Run: wrap(skynetconvertcmd),
-	}
-
 	skynetDownloadCmd = &cobra.Command{
 		Use:   "download [skylink] [destination]",
 		Short: "Download a skylink from skynet.",
 		Long: `Download a file from skynet using a skylink. Use the --portal flag to
 fetch a skylink file from a chosen skynet portal.`,
 		Run: skynetdownloadcmd,
-	}
-
-	skynetLsCmd = &cobra.Command{
-		Use:   "ls",
-		Short: "Needs SDK Implementation",
-		Long:  "Needs SDK Implementation",
-		/*
-		   Short: "List all skyfiles that the user has pinned.",
-		   		Long: `List all skyfiles that the user has pinned along with the corresponding
-		   skylinks. By default, only files in var/skynet/ will be displayed. The --root
-		   flag can be used to view skyfiles pinned in other folders.`,
-		*/
-		Run: skynetlscmd,
-	}
-
-	skynetPinCmd = &cobra.Command{
-		Use:   "pin [skylink] [destination siapath]",
-		Short: "Needs SDK Implementation",
-		Long:  "Needs SDK Implementation",
-		/*
-					Short: "Pin a skylink from skynet by re-uploading it yourself.",
-					Long: `Pin the file associated with this skylink by re-uploading an exact copy. This
-			ensures that the file will still be available on skynet as long as you continue
-			maintaining the file in your renter.`,
-		*/
-		Run: wrap(skynetpincmd),
 	}
 
 	skynetSkykeyCmd = &cobra.Command{
@@ -116,18 +63,6 @@ fetch a skylink file from a chosen skynet portal.`,
 		Short: "Get a list of all skykeys on Skynet.",
 		Long:  "Get a list of all skykeys on Skynet.",
 		Run:   wrap(skynetgetskykeyscmd),
-	}
-
-	skynetUnpinCmd = &cobra.Command{
-		Use:   "unpin [siapath]",
-		Short: "Needs SDK Implementation",
-		Long:  "Needs SDK Implementation",
-		/*
-					Short: "Unpin pinned skyfiles or directories.",
-					Long: `Unpin one or more pinned skyfiles or directories at the given siapaths. The
-			files and directories will continue to be available on Skynet if other nodes have pinned them.`,
-		*/
-		Run: skynetunpincmd,
 	}
 
 	skynetUploadCmd = &cobra.Command{
@@ -226,18 +161,6 @@ func skynetgetskykeyscmd() {
 	fmt.Println("Successfully got skykeys! Skykeys:", skykeys)
 }
 
-// skynetblacklistcmd handles adding and removing a skylink from the Skynet
-// Blacklist
-func skynetblacklistcmd(cmd *cobra.Command, args []string) {
-	fmt.Println("Skynet Blacklist not support in SDK")
-}
-
-// skynetconvertcmd will convert an existing siafile to a skyfile and skylink on
-// the Sia network.
-func skynetconvertcmd(sourceSiaPathStr, destSiaPathStr string) {
-	fmt.Println("Skynet convert not support in SDK")
-}
-
 // skynetdownloadcmd will perform the download of a skylink.
 func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 	if len(args) != 2 {
@@ -266,24 +189,6 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 		die("Unable to download skylink:", err)
 	}
 	fmt.Println("Successfully downloaded skylink!")
-}
-
-// skynetlscmd is the handler for the command `siac skynet ls`. Works very
-// similarly to 'siac renter ls' but defaults to the SkynetFolder and only
-// displays files that are pinning skylinks.
-func skynetlscmd(cmd *cobra.Command, args []string) {
-	fmt.Println("Skynet ls not implemented in SDK")
-}
-
-// skynetpincmd will pin the file from this skylink.
-func skynetpincmd(sourceSkylink, destSiaPath string) {
-	fmt.Println("Skynet pin not implemented in SDK")
-}
-
-// skynetunpincmd will unpin and delete either a single or multiple files or
-// directories from the Renter.
-func skynetunpincmd(cmd *cobra.Command, skyPathStrs []string) {
-	fmt.Println("Skynet pin not implemented in SDK")
 }
 
 // skynetuploadcmd will upload a file or directory to Skynet. If --dry-run is
