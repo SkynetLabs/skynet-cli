@@ -160,12 +160,12 @@ func main() {
 	rootCmd.AddCommand(versionCmd)
 
 	// Add Skynet Commands
-	rootCmd.AddCommand(skynetBlacklistCmd, skynetConvertCmd, skynetDownloadCmd, skynetLsCmd, skynetPinCmd, skynetSkykeyCmd, skynetUnpinCmd, skynetUploadCmd)
+	rootCmd.AddCommand(skynetDownloadCmd, skynetSkykeyCmd, skynetUploadCmd)
 	skynetSkykeyCmd.AddCommand(skynetSkykeyAddCmd, skynetSkykeyCreateCmd, skynetSkykeyGetCmd, skynetSkykeyGetSkykeysCmd)
 	skynetSkykeyGetCmd.AddCommand(skynetSkykeyGetIDCmd, skynetSkykeyGetNameCmd)
 
 	// Add flags.
-	rootCmd.Flags().BoolVarP(&generateDocs, "generate-docs", "d", false, "Generate the docs for skynet")
+	rootCmd.Flags().BoolVarP(&generateDocs, "generate-docs", "d", false, "Generate the docs for Skynet")
 	rootCmd.PersistentFlags().StringVar(&skynetPortal, "portal", "", "Use a Skynet portal other than the default")
 	rootCmd.PersistentFlags().StringVar(&endpointPath, "endpoint-path", "", "Relative URL path of the endpoint to use")
 	rootCmd.PersistentFlags().StringVar(&apiKey, "api-key", "", "API password to use for authentication")
