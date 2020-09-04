@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/NebulousLabs/go-skynet"
+	"github.com/NebulousLabs/go-skynet/v2"
 	"github.com/spf13/cobra"
 	"gitlab.com/NebulousLabs/errors"
 )
@@ -89,7 +89,7 @@ func skynetcmd() {
 	fmt.Printf("%s\n\n", binDescription)
 
 	// Get Default Portal
-	fmt.Printf("Default Skynet Portal: %v\n", skynet.DefaultPortalURL)
+	fmt.Printf("Default Skynet Portal: %v\n", skynet.DefaultPortalURL())
 }
 
 // skynetaddskykey stores the given base-64 encoded skykey with the skykey
@@ -97,9 +97,10 @@ func skynetcmd() {
 func skynetaddskykeycmd(skykey string) {
 	// Get the addskykey options.
 	opts := skynet.DefaultAddSkykeyOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 
-	err := skynet.AddSkykey(skykey, opts)
+	err := client.AddSkykey(skykey, opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("AddSkykey Options: %+v\n", opts))
 		die("Unable to add skykey:", err)
@@ -111,9 +112,10 @@ func skynetaddskykeycmd(skykey string) {
 func skynetcreateskykeycmd(name, skykeyType string) {
 	// Get the createskykey options.
 	opts := skynet.DefaultCreateSkykeyOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 
-	skykey, err := skynet.CreateSkykey(name, skykeyType, opts)
+	skykey, err := client.CreateSkykey(name, skykeyType, opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("CreateSkykey Options: %+v\n", opts))
 		die("Unable to create skykey:", err)
@@ -124,9 +126,10 @@ func skynetcreateskykeycmd(name, skykeyType string) {
 func skynetgetskykeyidcmd(id string) {
 	// Get the getskykeyid options.
 	opts := skynet.DefaultGetSkykeyOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 
-	skykey, err := skynet.GetSkykeyByID(id, opts)
+	skykey, err := client.GetSkykeyByID(id, opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("GetSkykey Options: %+v\n", opts))
 		die("Unable to get skykey by id:", err)
@@ -137,9 +140,10 @@ func skynetgetskykeyidcmd(id string) {
 func skynetgetskykeynamecmd(name string) {
 	// Get the getskykeyname options.
 	opts := skynet.DefaultGetSkykeyOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 
-	skykey, err := skynet.GetSkykeyByName(name, opts)
+	skykey, err := client.GetSkykeyByName(name, opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("GetSkykey Options: %+v\n", opts))
 		die("Unable to get skykey by name:", err)
@@ -151,9 +155,10 @@ func skynetgetskykeynamecmd(name string) {
 func skynetgetskykeyscmd() {
 	// Get the getskykeys options.
 	opts := skynet.DefaultGetSkykeysOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 
-	skykeys, err := skynet.GetSkykeys(opts)
+	skykeys, err := client.GetSkykeys(opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("GetSkykeys Options: %+v\n", opts))
 		die("Unable to get skykeys:", err)
@@ -174,7 +179,8 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 
 	// Get the download options.
 	opts := skynet.DefaultDownloadOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 	if downloadSkykeyName != "" {
 		opts.SkykeyName = downloadSkykeyName
 	}
@@ -183,7 +189,7 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 	}
 
 	// Download Skylink
-	err := skynet.DownloadFile(filename, skylink, opts)
+	err := client.DownloadFile(filename, skylink, opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("Download Options: %+v\n", opts))
 		die("Unable to download skylink:", err)
@@ -196,7 +202,8 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 func skynetuploadcmd(sourcePath string) {
 	// Get the upload options.
 	opts := skynet.DefaultUploadOptions
-	opts.Options = getCommonOptions(opts.Options)
+	client, commonOpts := initClientAndOptions()
+	opts.Options = commonOpts
 	if portalFileFieldName != "" {
 		opts.PortalFileFieldName = portalFileFieldName
 	}
@@ -216,7 +223,7 @@ func skynetuploadcmd(sourcePath string) {
 		opts.SkykeyID = uploadSkykeyID
 	}
 
-	skylink, uploadType, err := upload(sourcePath, opts)
+	skylink, uploadType, err := upload(sourcePath, client, opts)
 	if err != nil {
 		err = errors.AddContext(err, fmt.Sprintf("Upload Options: %+v\n", opts))
 		die(fmt.Sprintf("Unable to upload %v: %v\n", uploadType, err))
@@ -226,7 +233,7 @@ func skynetuploadcmd(sourcePath string) {
 }
 
 // upload uploads the given path.
-func upload(sourcePath string, opts skynet.UploadOptions) (skylink string, uploadType string, err error) {
+func upload(sourcePath string, client skynet.SkynetClient, opts skynet.UploadOptions) (skylink string, uploadType string, err error) {
 	// Open the source file.
 	file, err := os.Open(sourcePath)
 	if err != nil {
@@ -242,7 +249,7 @@ func upload(sourcePath string, opts skynet.UploadOptions) (skylink string, uploa
 
 	// Upload File
 	if !fi.IsDir() {
-		skylink, err = skynet.UploadFile(sourcePath, opts)
+		skylink, err = client.UploadFile(sourcePath, opts)
 		if err != nil {
 			return "", "file", errors.AddContext(err, "Unable to upload file")
 		}
@@ -250,19 +257,18 @@ func upload(sourcePath string, opts skynet.UploadOptions) (skylink string, uploa
 	}
 
 	// Upload directory
-	skylink, err = skynet.UploadDirectory(sourcePath, opts)
+	skylink, err = client.UploadDirectory(sourcePath, opts)
 	if err != nil {
 		return "", "directory", errors.AddContext(err, "Unable to upload directory")
 	}
 	return skylink, "directory", nil
 }
 
-// getCommonOptions gets options from the persistent root flags that are common
-// to all commands.
-func getCommonOptions(opts skynet.Options) skynet.Options {
-	if skynetPortal != "" {
-		opts.PortalURL = skynetPortal
-	}
+// initClientAndOptions initializes a client and common options from the
+// persistent root flags that are common to all commands. Any available options
+// in `opts` will be used if the option is not overridden with a root flag.
+func initClientAndOptions() (skynet.SkynetClient, skynet.Options) {
+	opts := skynet.Options{}
 	if endpointPath != "" {
 		opts.EndpointPath = endpointPath
 	}
@@ -272,5 +278,8 @@ func getCommonOptions(opts skynet.Options) skynet.Options {
 	if customUserAgent != "" {
 		opts.CustomUserAgent = customUserAgent
 	}
-	return opts
+	// Create a client with specified portal (or "" if not specified) default
+	// options. Custom options will be passed into the API call itself.
+	client := skynet.NewCustom(skynetPortal, skynet.Options{})
+	return client, opts
 }

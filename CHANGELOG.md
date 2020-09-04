@@ -10,6 +10,12 @@ Version History
 
 Latest:
 
+## Sep 4, 2020:
+### v2.0.0
+**Key Updates**
+- Updated to use v2 of the API.
+- Added `version` command.
+
 ## Aug 13, 2020:
 ### v1.1.0
 **Key Updates**
@@ -20,5 +26,4 @@ Latest:
 ## Jun 16, 2020:
 ### v1.0.0
 **Key Updates**
-- Created skynet cli
-
+- Created skynet cli with upload and download.
