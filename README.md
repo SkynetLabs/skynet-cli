@@ -1,6 +1,9 @@
 # skynet-cli
 
-![](https://github.com/NebulousLabs/skynet-cli/workflows/Go/badge.svg)
+[![Go](https://img.shields.io/github/go-mod/go-version/NebulousLabs/skynet-cli)](https://github.com/NebulousLabs/skynet-cli)
+[![Build Status](https://img.shields.io/github/workflow/status/NebulousLabs/skynet-cli/Go)](https://github.com/NebulousLabs/skynet-cli/actions)
+[![Contributors](https://img.shields.io/github/contributors/NebulousLabs/skynet-cli)](https://github.com/NebulousLabs/skynet-cli/graphs/contributors)
+[![License](https://img.shields.io/github/license/NebulousLabs/skynet-cli)](https://github.com/NebulousLabs/skynet-cli)
 
 skynet-cli is a lightweight CLI to interact with [Skynet](https://siasky.net).
 
