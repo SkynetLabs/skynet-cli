@@ -15,7 +15,7 @@ storage foundation for a Free Internet!
 If you have [Go](https://golang.org/cmd/go/) installed you can run:
 
 ```
-go get -u github.com/NebulousLabs/skynet-cli...
+go get -u github.com/NebulousLabs/skynet-cli/cmd...
 ```
 
 or you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page,
