@@ -12,15 +12,30 @@ storage foundation for a Free Internet!
 
 ## Installing
 
+### Using Go Get
+
 If you have [Go](https://golang.org/cmd/go/) installed you can run:
 
 ```
 go get -u github.com/NebulousLabs/skynet-cli/...
 ```
 
-or you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page,
+### Homebrew (MacOS Users)
 
-or you can build the source code yourself with:
+If you have [Homebrew](https://brew.sh/) installed you can run:
+
+```shell
+brew tap NebulousLabs/skynet-cli https://github.com/NebulousLabs/skynet-cli.git
+brew install skynet-cli
+```
+
+### Downloading Release Binary
+
+Alternatively, you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page.
+
+### Building From Source
+
+You can build the source code yourself with:
 
 ```
 make release
