@@ -18,6 +18,7 @@ class SkynetCli < Formula
       -X "github.com/NebulousLabs/skynet-cli/build.BuildTime=#{build_time}"
     ].join(" ")
     system "go", "build", *std_go_args, "-tags", "netgo", "-ldflags", ldflags, "./cmd/skynet"
+    mv bin/"skynet-cli", bin/"skynet"
   end
 
   test do
