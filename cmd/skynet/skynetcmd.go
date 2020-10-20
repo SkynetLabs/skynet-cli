@@ -97,8 +97,7 @@ func skynetcmd() {
 func skynetaddskykeycmd(skykey string) {
 	// Get the addskykey options.
 	opts := skynet.DefaultAddSkykeyOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 
 	err := client.AddSkykey(skykey, opts)
 	if err != nil {
@@ -112,8 +111,7 @@ func skynetaddskykeycmd(skykey string) {
 func skynetcreateskykeycmd(name, skykeyType string) {
 	// Get the createskykey options.
 	opts := skynet.DefaultCreateSkykeyOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 
 	skykey, err := client.CreateSkykey(name, skykeyType, opts)
 	if err != nil {
@@ -126,8 +124,7 @@ func skynetcreateskykeycmd(name, skykeyType string) {
 func skynetgetskykeyidcmd(id string) {
 	// Get the getskykeyid options.
 	opts := skynet.DefaultGetSkykeyOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 
 	skykey, err := client.GetSkykeyByID(id, opts)
 	if err != nil {
@@ -140,8 +137,7 @@ func skynetgetskykeyidcmd(id string) {
 func skynetgetskykeynamecmd(name string) {
 	// Get the getskykeyname options.
 	opts := skynet.DefaultGetSkykeyOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 
 	skykey, err := client.GetSkykeyByName(name, opts)
 	if err != nil {
@@ -155,8 +151,7 @@ func skynetgetskykeynamecmd(name string) {
 func skynetgetskykeyscmd() {
 	// Get the getskykeys options.
 	opts := skynet.DefaultGetSkykeysOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 
 	skykeys, err := client.GetSkykeys(opts)
 	if err != nil {
@@ -179,8 +174,7 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 
 	// Get the download options.
 	opts := skynet.DefaultDownloadOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 	if downloadSkykeyName != "" {
 		opts.SkykeyName = downloadSkykeyName
 	}
@@ -202,8 +196,7 @@ func skynetdownloadcmd(cmd *cobra.Command, args []string) {
 func skynetuploadcmd(sourcePath string) {
 	// Get the upload options.
 	opts := skynet.DefaultUploadOptions
-	client, commonOpts := initClientAndOptions()
-	opts.Options = commonOpts
+	client := initClientAndOptions(&opts.Options)
 	if portalFileFieldName != "" {
 		opts.PortalFileFieldName = portalFileFieldName
 	}
@@ -239,12 +232,14 @@ func upload(sourcePath string, client skynet.SkynetClient, opts skynet.UploadOpt
 	if err != nil {
 		return "", "path", errors.AddContext(err, "Unable to open source path")
 	}
-	defer func() {
-		err = errors.Extend(err, errors.AddContext(file.Close(), "Unable to close file"))
-	}()
 	fi, err := file.Stat()
 	if err != nil {
+		err = errors.Extend(err, file.Close())
 		return "", "path", errors.AddContext(err, "Unable to fetch source fileinfo")
+	}
+	err = file.Close()
+	if err != nil {
+		return "", "path", errors.AddContext(err, "Unable to close file")
 	}
 
 	// Upload File
@@ -267,8 +262,7 @@ func upload(sourcePath string, client skynet.SkynetClient, opts skynet.UploadOpt
 // initClientAndOptions initializes a client and common options from the
 // persistent root flags that are common to all commands. Any available options
 // in `opts` will be used if the option is not overridden with a root flag.
-func initClientAndOptions() (skynet.SkynetClient, skynet.Options) {
-	opts := skynet.Options{}
+func initClientAndOptions(opts *skynet.Options) skynet.SkynetClient {
 	if endpointPath != "" {
 		opts.EndpointPath = endpointPath
 	}
@@ -281,5 +275,5 @@ func initClientAndOptions() (skynet.SkynetClient, skynet.Options) {
 	// Create a client with specified portal (or "" if not specified) default
 	// options. Custom options will be passed into the API call itself.
 	client := skynet.NewCustom(skynetPortal, skynet.Options{})
-	return client, opts
+	return client
 }
