@@ -60,7 +60,7 @@ skynet download [skylink] [destination]
 
 ## Documentation
 
-For comprehensive documentation complete with examples, please see [the Skynet SDK docs](https://nebulouslabs.github.io/skynet-docs/?shell--cli#introduction).
+For comprehensive documentation complete with examples, please see [the Skynet SDK docs](https://siasky.net/docs/?shell--cli#introduction).
 
 To learn about additional commands you can always use the `-h` flag or check out
 the [documentation](./doc).
