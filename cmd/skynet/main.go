@@ -26,7 +26,7 @@ built on top of Sia.`
 	mainDocFile = "./doc/skynet.md"
 
 	// version is the current version of skynet-cli.
-	version = "2.0.0"
+	version = "2.0.1"
 )
 
 // Exit codes.

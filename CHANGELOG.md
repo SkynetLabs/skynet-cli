@@ -10,6 +10,14 @@ Version History
 
 Latest:
 
+## Oct 22, 2020:
+### v2.0.1
+**Key Updates**
+- Fixed single-file directory uploads being uploaded as files instead of
+  directories.
+- Fixed commands not working due to default options being ignored
+- Added Homebrew installation method for OSX
+
 ## Sep 4, 2020:
 ### v2.0.0
 **Key Updates**
