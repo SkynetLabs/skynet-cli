@@ -1,7 +1,10 @@
-name: Go
+name: CI
 
-# Run on PRs
-on: [pull_request]
+# Run daily and on PRs.
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  pull_request:
 
 # Define Jobs
 jobs:
@@ -20,7 +23,7 @@ jobs:
         run: make build
       - name: Lint script
         run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.29.0
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.31.0
           python -m pip install --upgrade pip
           pip install codespell
           go get -u gitlab.com/NebulousLabs/analyze
