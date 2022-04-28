@@ -3,8 +3,8 @@ BUILD_TIME=$(shell date)
 GIT_REVISION=$(shell git rev-parse --short HEAD)
 GIT_DIRTY=$(shell git diff-index --quiet HEAD -- || echo "✗-")
 
-ldflags= -X github.com/NebulousLabs/skynet-cli/build.GitRevision=${GIT_DIRTY}${GIT_REVISION} \
--X "github.com/NebulousLabs/skynet-cli/build.BuildTime=${BUILD_TIME}"
+ldflags= -X github.com/SkynetLabs/skynet-cli/build.GitRevision=${GIT_DIRTY}${GIT_REVISION} \
+-X "github.com/SkynetLabs/skynet-cli/build.BuildTime=${BUILD_TIME}"
 
 racevars= history_size=3 halt_on_error=1 atexit_sleep_ms=2000
 

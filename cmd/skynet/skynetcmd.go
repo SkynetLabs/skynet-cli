@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/NebulousLabs/go-skynet/v2"
+	"github.com/SkynetLabs/go-skynet/v2"
 	"github.com/spf13/cobra"
 	"gitlab.com/NebulousLabs/errors"
 )

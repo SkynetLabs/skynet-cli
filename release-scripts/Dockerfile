@@ -8,7 +8,7 @@ RUN useradd -ms /bin/bash builder
 USER builder
 WORKDIR /home/builder
 
-RUN git clone https://github.com/NebulousLabs/skynet-cli
+RUN git clone https://github.com/SkynetLabs/skynet-cli
 WORKDIR /home/builder/skynet-cli
 RUN git fetch --all && git checkout $branch
 
