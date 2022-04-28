@@ -58,8 +58,12 @@ var (
 	// endpointPath is the relative URL path of the endpoint.
 	endpointPath string
 
-	// apiKey is the API password to use for authentication.
+	// apiKey is the authentication password to use for a single Skynet node.
 	apiKey string
+
+	// skynetAPIKey is the authentication API key to use for a Skynet portal
+	// (sets the "Skynet-Api-Key" header).
+	skynetAPIKey string
 
 	// customUserAgent is the custom user agent to use.
 	customUserAgent string
@@ -168,7 +172,8 @@ func main() {
 	rootCmd.Flags().BoolVarP(&generateDocs, "generate-docs", "d", false, "Generate the docs for Skynet")
 	rootCmd.PersistentFlags().StringVar(&skynetPortal, "portal", "", "Use a Skynet portal other than the default")
 	rootCmd.PersistentFlags().StringVar(&endpointPath, "endpoint-path", "", "Relative URL path of the endpoint to use")
-	rootCmd.PersistentFlags().StringVar(&apiKey, "api-key", "", "API password to use for authentication")
+	rootCmd.PersistentFlags().StringVar(&apiKey, "api-key", "", "Authentication password to use for a single Skynet node.")
+	rootCmd.PersistentFlags().StringVar(&skynetAPIKey, "skynet-api-key", "", "Authentication API key to use for a Skynet portal")
 	rootCmd.PersistentFlags().StringVar(&customUserAgent, "custom-user-agent", "", "Custom user agent to use")
 	// Upload flags.
 	skynetUploadCmd.Flags().StringVar(&portalFileFieldName, "file-field-name", "", "Defines the fieldName for the files on the portal")

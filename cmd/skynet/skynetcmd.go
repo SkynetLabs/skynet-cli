@@ -269,6 +269,9 @@ func initClientAndOptions(opts *skynet.Options) skynet.SkynetClient {
 	if apiKey != "" {
 		opts.APIKey = apiKey
 	}
+	if skynetAPIKey != "" {
+		opts.SkynetAPIKey = skynetAPIKey
+	}
 	if customUserAgent != "" {
 		opts.CustomUserAgent = customUserAgent
 	}
