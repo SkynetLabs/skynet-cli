@@ -58,7 +58,8 @@ var (
 	// endpointPath is the relative URL path of the endpoint.
 	endpointPath string
 
-	// apiKey is the authentication password to use for a single Skynet node.
+	// apiKey is the skyd authentication password to use for a single Skynet
+	// node.
 	apiKey string
 
 	// skynetAPIKey is the authentication API key to use for a Skynet portal
