@@ -10,6 +10,11 @@ Version History
 
 Latest:
 
+## Apr 29, 2022:
+### v2.1.0
+**Key Updates**
+- Add --skynet-api-key option.
+
 ## Oct 22, 2020:
 ### v2.0.1
 **Key Updates**
