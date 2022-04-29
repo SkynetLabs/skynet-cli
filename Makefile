@@ -3,8 +3,8 @@ BUILD_TIME=$(shell date)
 GIT_REVISION=$(shell git rev-parse --short HEAD)
 GIT_DIRTY=$(shell git diff-index --quiet HEAD -- || echo "✗-")
 
-ldflags= -X github.com/NebulousLabs/skynet-cli/build.GitRevision=${GIT_DIRTY}${GIT_REVISION} \
--X "github.com/NebulousLabs/skynet-cli/build.BuildTime=${BUILD_TIME}"
+ldflags= -X github.com/SkynetLabs/skynet-cli/build.GitRevision=${GIT_DIRTY}${GIT_REVISION} \
+-X "github.com/SkynetLabs/skynet-cli/build.BuildTime=${BUILD_TIME}"
 
 racevars= history_size=3 halt_on_error=1 atexit_sleep_ms=2000
 
@@ -147,6 +147,9 @@ fullcover: clean
 	@go tool cover -html=fullcover/fullcover.out -o fullcover/fullcover.html
 	@printf 'Full coverage on $(pkgs):'
 	@go tool cover -func fullcover/fullcover.out | tail -n -1 | awk '{$$1=""; $$2=""; sub(" ", " "); print}'
+
+doc: release
+	skynet -d
 
 .PHONY: all fmt install release clean test test-v test-long cover whitepaper
 

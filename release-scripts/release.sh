@@ -10,7 +10,7 @@ if [[ -z $version ]]; then
 fi
 
 # setup build-time vars
-ldflags="-s -w -X 'github.com/NebulousLabs/skynet-cli/build.GitRevision=`git rev-parse --short HEAD`' -X 'github.com/NebulousLabs/skynet-cli/build.BuildTime=`git show -s --format=%ci HEAD`' -X 'github.com/NebulousLabs/skynet-cli/build.ReleaseTag=${rc}'"
+ldflags="-s -w -X 'github.com/SkynetLabs/skynet-cli/build.GitRevision=`git rev-parse --short HEAD`' -X 'github.com/SkynetLabs/skynet-cli/build.BuildTime=`git show -s --format=%ci HEAD`' -X 'github.com/SkynetLabs/skynet-cli/build.ReleaseTag=${rc}'"
 
 function build {
   os=$1

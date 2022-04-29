@@ -1,7 +1,7 @@
 class SkynetCli < Formula
   desc "Lightweight CLI to interact with Skynet"
   homepage "https://siasky.net"
-  url "https://github.com/NebulousLabs/skynet-cli.git"
+  url "https://github.com/SkynetLabs/skynet-cli.git"
   version "2.0.1"
   sha256 "4e439bd71eea0ccf9ba928537884c4040b04353a43c3ea6baaf186e21e5856d7"
   license "MIT"
@@ -14,8 +14,8 @@ class SkynetCli < Formula
     git_dirty = Utils.safe_popen_read("git", "diff-index", "--quiet", "HEAD", "--", "||", "echo", "'x-'").chomp
     ldflags = %W[
       -s -w
-      -X github.com/NebulousLabs/skynet-cli/build.GitRevision=#{git_dirty}#{git_revision}
-      -X "github.com/NebulousLabs/skynet-cli/build.BuildTime=#{build_time}"
+      -X github.com/SkynetLabs/skynet-cli/build.GitRevision=#{git_dirty}#{git_revision}
+      -X "github.com/SkynetLabs/skynet-cli/build.BuildTime=#{build_time}"
     ].join(" ")
     system "go", "build", *std_go_args, "-tags", "netgo", "-ldflags", ldflags, "./cmd/skynet"
     mv bin/"skynet-cli", bin/"skynet"

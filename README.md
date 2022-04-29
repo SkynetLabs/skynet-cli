@@ -1,9 +1,9 @@
 # skynet-cli
 
-[![Go](https://img.shields.io/github/go-mod/go-version/NebulousLabs/skynet-cli)](https://github.com/NebulousLabs/skynet-cli)
-[![Build Status](https://img.shields.io/github/workflow/status/NebulousLabs/skynet-cli/Go)](https://github.com/NebulousLabs/skynet-cli/actions)
-[![Contributors](https://img.shields.io/github/contributors/NebulousLabs/skynet-cli)](https://github.com/NebulousLabs/skynet-cli/graphs/contributors)
-[![License](https://img.shields.io/github/license/NebulousLabs/skynet-cli)](https://github.com/NebulousLabs/skynet-cli)
+[![Go](https://img.shields.io/github/go-mod/go-version/SkynetLabs/skynet-cli)](https://github.com/SkynetLabs/skynet-cli)
+[![Build Status](https://img.shields.io/github/workflow/status/SkynetLabs/skynet-cli/Go)](https://github.com/SkynetLabs/skynet-cli/actions)
+[![Contributors](https://img.shields.io/github/contributors/SkynetLabs/skynet-cli)](https://github.com/SkynetLabs/skynet-cli/graphs/contributors)
+[![License](https://img.shields.io/github/license/SkynetLabs/skynet-cli)](https://github.com/SkynetLabs/skynet-cli)
 
 skynet-cli is a lightweight CLI to interact with [Skynet](https://siasky.net).
 
@@ -19,7 +19,7 @@ The following methods will install a binary called `skynet` to your machine.
 If you have [Go](https://golang.org/cmd/go/) installed you can run:
 
 ```
-go get -u github.com/NebulousLabs/skynet-cli/...
+go get -u github.com/SkynetLabs/skynet-cli/...
 ```
 
 ### Homebrew (MacOS Users)
@@ -27,13 +27,13 @@ go get -u github.com/NebulousLabs/skynet-cli/...
 If you have [Homebrew](https://brew.sh/) installed you can run:
 
 ```shell
-brew tap NebulousLabs/skynet-cli https://github.com/NebulousLabs/skynet-cli.git
+brew tap SkynetLabs/skynet-cli https://github.com/SkynetLabs/skynet-cli.git
 brew install skynet-cli
 ```
 
 ### Downloading Release Binary
 
-Alternatively, you can pull the appropriate binary from our [Releases](https://github.com/NebulousLabs/skynet-cli/releases) page.
+Alternatively, you can pull the appropriate binary from our [Releases](https://github.com/SkynetLabs/skynet-cli/releases) page.
 
 ### Building From Source
 

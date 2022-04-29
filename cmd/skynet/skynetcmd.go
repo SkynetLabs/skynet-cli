@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/NebulousLabs/go-skynet/v2"
+	"github.com/SkynetLabs/go-skynet/v2"
 	"github.com/spf13/cobra"
 	"gitlab.com/NebulousLabs/errors"
 )
@@ -268,6 +268,9 @@ func initClientAndOptions(opts *skynet.Options) skynet.SkynetClient {
 	}
 	if apiKey != "" {
 		opts.APIKey = apiKey
+	}
+	if skynetAPIKey != "" {
+		opts.SkynetAPIKey = skynetAPIKey
 	}
 	if customUserAgent != "" {
 		opts.CustomUserAgent = customUserAgent
