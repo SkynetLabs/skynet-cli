@@ -2,8 +2,8 @@ class SkynetCli < Formula
   desc "Lightweight CLI to interact with Skynet"
   homepage "https://siasky.net"
   url "https://github.com/SkynetLabs/skynet-cli.git"
-  version "2.0.1"
-  sha256 "4e439bd71eea0ccf9ba928537884c4040b04353a43c3ea6baaf186e21e5856d7"
+  version "2.1.0"
+  sha256 "0cad3711fa115a5c0ff746cb42806362dcf5ca7c4fd944cde59fbbddb607c6ea"
   license "MIT"
 
   depends_on "go" => :build
