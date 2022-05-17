@@ -10,6 +10,11 @@ Version History
 
 Latest:
 
+## May 17, 2022:
+### v2.1.1
+**Key Updates**
+- Fix installation with `go install`.
+
 ## Apr 29, 2022:
 ### v2.1.0
 **Key Updates**
