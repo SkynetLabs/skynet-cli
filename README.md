@@ -14,12 +14,12 @@ storage foundation for a Free Internet!
 
 The following methods will install a binary called `skynet` to your machine.
 
-### Using Go Get
+### Using Go Install
 
 If you have [Go](https://golang.org/cmd/go/) installed you can run:
 
 ```
-go get -u github.com/SkynetLabs/skynet-cli/...
+go install github.com/SkynetLabs/skynet-cli/v2@latest
 ```
 
 ### Homebrew (MacOS Users)
