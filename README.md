@@ -19,7 +19,7 @@ The following methods will install a binary called `skynet` to your machine.
 If you have [Go](https://golang.org/cmd/go/) installed you can run:
 
 ```
-go install github.com/SkynetLabs/skynet-cli/v2@latest
+go install github.com/SkynetLabs/skynet-cli/v2/cmd/skynet@latest
 ```
 
 ### Homebrew (MacOS Users)
